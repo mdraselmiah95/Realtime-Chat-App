@@ -1,49 +1,94 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useForm } from "react-hook-form";
+import { ToastContainer, toast } from "react-toastify";
 import Logo from "../assets/logo.svg";
 import { Link } from "react-router-dom";
 
 const Register = () => {
-  const { reset, handleSubmit, register } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
+  const toastOptions = {
+    position: "bottom-right",
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+  };
+
+  const [values, setValues] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleChange = (event) => {
+    setValues({ ...values, [event.target.name]: event.target.value });
+  };
+
+  const handleValidation = () => {
+    const { password, confirmPassword, username, email } = values;
+    if (password !== confirmPassword) {
+      toast.error(
+        "Password and confirm password should be same.",
+        toastOptions
+      );
+      return false;
+    } else if (username.length < 3) {
+      toast.error(
+        "Username should be greater than 3 characters.",
+        toastOptions
+      );
+      return false;
+    } else if (password.length < 8) {
+      toast.error(
+        "Password should be equal or greater than 8 characters.",
+        toastOptions
+      );
+      return false;
+    } else if (email === "") {
+      toast.error("Email is required.", toastOptions);
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    handleValidation();
+    const { email, username, password } = values;
+    console.log(email, username, password);
   };
 
   return (
     <FormContainer>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form action="" onSubmit={(event) => handleSubmit(event)}>
         <div className="brand">
           <img src={Logo} alt="logo" />
           <h1>snappy</h1>
         </div>
         <input
           type="text"
-          id="username"
-          name="username"
           placeholder="Username"
-          {...register("email")}
+          name="username"
+          onChange={(e) => handleChange(e)}
         />
         <input
-          id="email"
           type="email"
-          name="email"
           placeholder="Email"
-          {...register("email")}
+          name="email"
+          onChange={(e) => handleChange(e)}
         />
         <input
-          id="password"
           type="password"
-          name="password"
           placeholder="Password"
-          {...register("password")}
+          name="password"
+          onChange={(e) => handleChange(e)}
         />
         <input
-          id="confirmPassword"
           type="password"
+          placeholder="Confirm Password"
           name="confirmPassword"
-          placeholder="confirmPassword"
-          {...register("confirmPassword")}
+          onChange={(e) => handleChange(e)}
         />
         <button type="submit">Create User</button>
         <span>
@@ -98,7 +143,7 @@ const FormContainer = styled.div`
     }
   }
   button {
-    background-color: #4e0eff;
+    background-color: #997af0;
     color: white;
     padding: 1rem 2rem;
     border: none;
@@ -107,6 +152,7 @@ const FormContainer = styled.div`
     border-radius: 0.4rem;
     font-size: 1rem;
     text-transform: uppercase;
+    transition: 0.5s ease-in-out;
     &:hover {
       background-color: #4e0eff;
     }
