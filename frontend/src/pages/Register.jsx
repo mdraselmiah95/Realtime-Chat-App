@@ -22,6 +22,12 @@ const Register = () => {
     confirmPassword: "",
   });
 
+  useEffect(() => {
+    if (localStorage.getItem("chat-data")) {
+      navigate("/");
+    }
+  }, [navigate]);
+
   const handleChange = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
   };
