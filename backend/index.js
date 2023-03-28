@@ -32,3 +32,5 @@ app.use("/api/auth", userRoute);
 const server = app.listen(process.env.PORT, () => {
   console.log(colors.rainbow(`APP IS RUNNING ON PORT ${process.env.PORT}`));
 });
+
+// This is cool

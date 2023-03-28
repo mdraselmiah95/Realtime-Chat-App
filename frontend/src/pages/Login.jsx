@@ -51,7 +51,7 @@ const Login = () => {
         toast.error(data.msg, toastOptions);
       }
       if (data.status === "success") {
-        localStorage.setItem("chat-app-user", JSON.stringify(data.user));
+        localStorage.setItem("chat-data", JSON.stringify(data.data));
         navigate("/");
       }
     }
