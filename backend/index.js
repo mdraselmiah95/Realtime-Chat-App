@@ -14,26 +14,19 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 //Database Connection
-// mongoose
-//   .connect(process.env.MONGO_URL, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//   })
-//   .then(() => {
-//     console.log(colors.red.underline("DB Connection Successful"));
-//   })
-//   .catch((err) => {
-//     console.log(colors.red(err.message));
-//   });
+mongoose
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log(colors.red.underline("DB Connection Successful"));
+  })
+  .catch((err) => {
+    console.log(colors.red(err.message));
+  });
 
-// DB connection
-mongoose.set("strictQuery", false);
-
-mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true }).then(() => {
-  console.log(`Database Connection Is Successful 🥇`.rainbow.bold);
-});
-
-//Route
+// Route
 app.use("/api/auth", userRoute);
 
 const server = app.listen(process.env.PORT, () => {

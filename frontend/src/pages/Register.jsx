@@ -63,10 +63,14 @@ const Register = () => {
         email,
         password,
       });
+      if (data.status === "success") {
+        toast.success("Successfully inserted the data", toastOptions);
+      }
+
       if (data.status === false) {
         toast.error(data.msg, toastOptions);
       }
-      if (data.status === true) {
+      if (data.status === "success") {
         localStorage.setItem("chat-app-user", JSON.stringify(data.user));
         navigate("/");
       }
