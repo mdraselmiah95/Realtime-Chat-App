@@ -1,18 +1,23 @@
 const User = require("../model/user.model");
 const bcrypt = require("bcrypt");
 
-module.exports.findAll = async (req, res) => {
+module.exports.login = async (req, res, next) => {
   try {
-    const users = await User.find({});
-    res.status(200).json({
-      status: "Success",
-      data: users,
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+    if (!user)
+      return res.json({ msg: "Incorrect Username or Password", status: false });
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid)
+      return res.json({ msg: "Incorrect Username or Password", status: false });
+    delete user.password;
+    return res.status(200).json({
+      status: "success",
+      data: user,
+      message: "User Login Successfully",
     });
-  } catch (error) {
-    res.status(400).json({
-      status: "Fail",
-      error: "Couldn't create the User",
-    });
+  } catch (ex) {
+    next(ex);
   }
 };
 
@@ -39,5 +44,20 @@ module.exports.register = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+  }
+};
+
+module.exports.findAll = async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.status(200).json({
+      status: "Success",
+      data: users,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "Fail",
+      error: "Couldn't create the User",
+    });
   }
 };

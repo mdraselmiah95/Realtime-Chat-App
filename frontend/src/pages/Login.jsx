@@ -45,9 +45,8 @@ const Login = () => {
         password,
       });
       if (data.status === "success") {
-        toast.success("Successfully inserted the data", toastOptions);
+        toast.success("Successfully Login", toastOptions);
       }
-
       if (data.status === false) {
         toast.error(data.msg, toastOptions);
       }
