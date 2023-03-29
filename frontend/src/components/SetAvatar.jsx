@@ -23,8 +23,35 @@ const SetAvatar = () => {
     theme: "dark",
   };
 
-  const setProfilePicture = async () => {};
+  useEffect(() => {
+    if (!localStorage.getItem("chat-data")) {
+      navigate("/login");
+    }
+  }, [navigate]);
 
+  const setProfilePicture = async () => {
+    if (selectedAvatar === undefined) {
+      toast.error("Please select an avatar", toastOptions);
+    } else {
+      const user = await JSON.parse(localStorage.getItem("chat-data"));
+
+      const { data } = await axios.post(`${setAvatarRoute}/${user._id}`, {
+        image: avatars[selectedAvatar],
+      });
+
+      console.log(data);
+      if (data.isSet) {
+        user.isAvatarImageSet = true;
+        user.avatarImage = data.image;
+        localStorage.setItem("chat-data", JSON.stringify(user));
+        navigate("/");
+      } else {
+        toast.error("Error setting avatar. Please try again.", toastOptions);
+      }
+    }
+  };
+
+  // Avatar Image Fetching
   useEffect(() => {
     const fetchData = async () => {
       const data = [];
@@ -56,6 +83,7 @@ const SetAvatar = () => {
             {avatars.map((avatar, index) => {
               return (
                 <div
+                  key={avatar || index}
                   className={`avatar ${
                     selectedAvatar === index ? "selected" : ""
                   }`}
@@ -105,12 +133,12 @@ const Container = styled.div`
       padding: 0.4rem;
       border-radius: 5rem;
       display: flex;
+      cursor: pointer;
       justify-content: center;
       align-items: center;
       transition: 0.5s ease-in-out;
       img {
         height: 6rem;
-        transition: 0.5s ease-in-out;
       }
     }
     .selected {
