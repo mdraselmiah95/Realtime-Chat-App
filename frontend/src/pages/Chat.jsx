@@ -1,19 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import Contacts from "../components/Contacts";
 import ChatContainer from "../components/ChatContainer";
 import Welcome from "../components/Welcome";
+import { allUsersRoute } from "../utils/APIRoutes";
 
 const Chat = () => {
+  const navigate = useNavigate();
   const [contacts, setContacts] = useState([]);
   const [currentChat, setCurrentChat] = useState(undefined);
   const [currentUser, setCurrentUser] = useState(undefined);
 
-  // COOL is
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!localStorage.getItem("chat-data")) {
+        navigator("/login");
+      } else {
+        setCurrentUser(await JSON.parse(localStorage.getItem("chat-data")));
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (currentUser) {
+        if (currentUser.isAvatarImageSet) {
+          const data = await axios.get(`${allUsersRoute}/${currentUser._id}`);
+          setContacts(data.data.data);
+        } else {
+          navigate("/setAvatar");
+        }
+      }
+    };
+    fetchData();
+  }, [currentUser, navigate]);
+
   return (
     <Container>
       <div className="container">
-        <Contacts />
+        <Contacts contacts={contacts} />
 
         <Welcome />
 
@@ -45,5 +73,3 @@ const Container = styled.div`
 `;
 
 export default Chat;
-
-// this is
