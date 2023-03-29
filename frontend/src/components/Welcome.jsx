@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Robot from "../assets/robot.gif";
 
-const Welcome = () => {
+const Welcome = ({ currentUser }) => {
+  const { username } = currentUser;
+
+  // const [userName, setUserName] = useState("");
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const data = await JSON.parse(localStorage.getItem("chat-data"));
+  //     setUserName(data.username);
+  //   };
+  //   fetchData();
+  // }, []);
+
   return (
     <Container>
       <img src={Robot} alt="" />
       <h1>
-        Welcome, <span>userName!</span>
+        Welcome, <span>{username}!</span>
       </h1>
       <h3>Please select a chat to Start messaging.</h3>
     </Container>
