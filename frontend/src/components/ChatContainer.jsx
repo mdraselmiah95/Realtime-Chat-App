@@ -1,9 +1,32 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import Logout from "./Logout";
 
-const ChatContainer = ({ currentUser }) => {
-  return <Container>ChatContainer</Container>;
+const ChatContainer = ({ currentChat }) => {
+  return (
+    <>
+      {currentChat && (
+        <Container>
+          <div className="chat-header">
+            <div className="user-details">
+              <div className="avatar">
+                <img
+                  src={`data:image/svg+xml;base64,${currentChat.avatarImage}`}
+                  alt="avatar"
+                />
+              </div>
+              <div className="username">
+                <h3>{currentChat.username}</h3>
+              </div>
+            </div>
+            <Logout />
+          </div>
+          <div className="chat-messages"></div>
+        </Container>
+      )}
+    </>
+  );
 };
 
 const Container = styled.div`
