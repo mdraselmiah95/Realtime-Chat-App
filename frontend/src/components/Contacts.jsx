@@ -7,14 +7,51 @@ const Contacts = ({ contacts }) => {
   const [currentUserImage, setCurrentUserImage] = useState(undefined);
   const [currentSelected, setCurrentSelected] = useState(undefined);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await JSON.parse(localStorage.getItem("chat-data"));
+      setCurrentUserName(data.username);
+      setCurrentUserImage(data.avatarImage);
+    };
+    fetchData();
+  }, []);
+
+  const changeCurrentChat = (index, contact) => {};
+
   return (
-    <Container>
-      <div className="brand">
-        <img src={Logo} alt="logo" />
-        <h3>snappy</h3>
-      </div>
-      <div className="contacts"></div>
-    </Container>
+    <>
+      {currentUserName && currentUserImage && (
+        <Container>
+          <div className="brand">
+            <img src={Logo} alt="logo" />
+            <h3>snappy</h3>
+          </div>
+          <div className="contacts">
+            {contacts.map((contact, index) => {
+              return (
+                <div
+                  key={contact._id || index}
+                  className={`contact ${
+                    index === currentSelected ? "selected" : ""
+                  }`}
+                  onClick={() => changeCurrentChat(index, contact)}
+                >
+                  <div className="avatar">
+                    <img
+                      src={`data:image/svg+xml;base64,${contact.avatarImage}`}
+                      alt="avatar"
+                    />
+                  </div>
+                  <div className="username">
+                    <h3>{contact.username}</h3>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </Container>
+      )}
+    </>
   );
 };
 
