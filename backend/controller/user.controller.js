@@ -67,6 +67,27 @@ module.exports.register = async (req, res, next) => {
   }
 };
 
+module.exports.getAllUsers = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const users = await User.find({ _id: id }).select([
+      "email",
+      "username",
+      "avatarImage",
+      "_id",
+    ]);
+    res.status(200).json({
+      status: "success",
+      data: users,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "Fail",
+      error: "Couldn't Find the Users",
+    });
+  }
+};
+
 module.exports.findAll = async (req, res) => {
   try {
     const users = await User.find({});

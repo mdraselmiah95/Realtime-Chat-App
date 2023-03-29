@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Contacts from "../components/Contacts";
 import ChatContainer from "../components/ChatContainer";
 import Welcome from "../components/Welcome";
 
 const Chat = () => {
+  const [contacts, setContacts] = useState([]);
+  const [currentChat, setCurrentChat] = useState(undefined);
+  const [currentUser, setCurrentUser] = useState(undefined);
+
+  // COOL is
   return (
     <Container>
       <div className="container">
@@ -40,3 +45,5 @@ const Container = styled.div`
 `;
 
 export default Chat;
+
+// this is
