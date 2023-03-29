@@ -4,9 +4,15 @@ import styled from "styled-components";
 import axios from "axios";
 
 const Logout = () => {
+  const navigate = useNavigate();
+  const handleClick = async () => {
+    localStorage.clear();
+    navigate("/login");
+  };
+
   return (
     <Button>
-      <BiPowerOff />
+      <BiPowerOff onClick={handleClick} />
     </Button>
   );
 };
