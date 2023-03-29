@@ -16,7 +16,9 @@ const Contacts = ({ contacts }) => {
     fetchData();
   }, []);
 
-  const changeCurrentChat = (index, contact) => {};
+  const changeCurrentChat = (index, contact) => {
+    setCurrentSelected(index);
+  };
 
   return (
     <>
@@ -48,6 +50,17 @@ const Contacts = ({ contacts }) => {
                 </div>
               );
             })}
+          </div>
+          <div className="current-user">
+            <div className="avatar">
+              <img
+                src={`data:image/svg+xml;base64,${currentUserImage}`}
+                alt="avatar"
+              />
+            </div>
+            <div className="username">
+              <h2>{currentUserName}</h2>
+            </div>
           </div>
         </Container>
       )}

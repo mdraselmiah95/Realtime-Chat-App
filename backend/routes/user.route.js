@@ -11,7 +11,7 @@ const router = require("express").Router();
 // ALl the Routes
 router.post("/register", register);
 router.post("/login", login);
-router.get("/allUsers", findAll);
+router.get("/getAllUsers", findAll);
 router.post("/setAvatar/:id", setAvatar);
 router.get("/allUsers/:id", getAllUsers);
 
