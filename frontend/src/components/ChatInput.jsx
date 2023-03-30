@@ -5,11 +5,25 @@ import styled from "styled-components";
 import Picker from "emoji-picker-react";
 
 const ChatInput = () => {
+  const [msg, setMsg] = useState("");
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
+  const handleEmojiPickerHideShow = () => {
+    setShowEmojiPicker(!showEmojiPicker);
+  };
+
+  const handleEmojiClick = (event, emojiObject) => {
+    let message = msg;
+    message += emojiObject.emoji;
+    setMsg(message);
+  };
+
   return (
     <Container>
       <div className="button-container">
         <div className="emoji">
-          <BsEmojiSmileFill />
+          <BsEmojiSmileFill onClick={handleEmojiPickerHideShow} />
+          {showEmojiPicker && <Picker onEmojiClick={handleEmojiClick} />}
         </div>
       </div>
       <form className="input-container">
