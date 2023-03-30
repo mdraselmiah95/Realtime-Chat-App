@@ -5,9 +5,23 @@ import styled from "styled-components";
 import Picker from "emoji-picker-react";
 
 const ChatInput = () => {
-  return <Container>ChatInput</Container>;
+  return (
+    <Container>
+      <div className="button-container">
+        <div className="emoji">
+          <BsEmojiSmileFill />
+        </div>
+      </div>
+      <form className="input-container">
+        <input type="text" placeholder="type your message here" />
+        <button type="submit">
+          <IoMdSend />
+        </button>
+      </form>
+    </Container>
+  );
 };
-// they are the nice
+
 const Container = styled.div`
   display: grid;
   align-items: center;

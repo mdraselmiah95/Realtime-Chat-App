@@ -26,6 +26,10 @@ const Button = styled.button`
   background-color: #9a86f3;
   border: none;
   cursor: pointer;
+  transition: 0.5s ease-in-out;
+  &:hover {
+    background-color: #4e0eff;
+  }
   svg {
     font-size: 1.3rem;
     color: #ebe7ff;

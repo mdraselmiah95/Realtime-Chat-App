@@ -26,8 +26,6 @@ const Chat = () => {
     fetchData();
   }, []);
 
-  // todo
-
   useEffect(() => {
     const fetchData = async () => {
       if (currentUser) {
