@@ -5,6 +5,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const colors = require("colors");
 const userRoute = require("./routes/user.route");
+const messageRoute = require("./routes/message.route");
 
 const app = express();
 
@@ -28,6 +29,7 @@ mongoose
 
 // Route
 app.use("/api/auth", userRoute);
+app.use("/api/message", messageRoute);
 
 const server = app.listen(process.env.PORT, () => {
   console.log(colors.rainbow(`APP IS RUNNING ON PORT ${process.env.PORT}`));
