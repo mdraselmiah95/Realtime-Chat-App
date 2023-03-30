@@ -7,7 +7,7 @@ import Picker from "emoji-picker-react";
 const ChatInput = () => {
   return <Container>ChatInput</Container>;
 };
-
+// they are the nice
 const Container = styled.div`
   display: grid;
   align-items: center;

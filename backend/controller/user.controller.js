@@ -21,10 +21,42 @@ module.exports.login = async (req, res, next) => {
   }
 };
 
+// module.exports.setAvatar = async (req, res, next) => {
+//   try {
+//     const userId = req.params.id;
+//     const avatarImage = req.body.image;
+//     const userData = await User.findByIdAndUpdate(
+//       userId,
+//       {
+//         isAvatarImageSet: true,
+//         avatarImage,
+//       },
+//       { new: true }
+//     );
+//     return res.json({
+//       isSet: userData.isAvatarImageSet,
+//       image: userData.avatarImage,
+//     });
+//   } catch (error) {
+//     res.status(400).json({
+//       status: "Fail",
+//       error: "Couldn't Set the Avatar",
+//     });
+//   }
+// };
+
 module.exports.setAvatar = async (req, res, next) => {
   try {
     const userId = req.params.id;
     const avatarImage = req.body.image;
+
+    if (!userId || !avatarImage) {
+      return res.status(400).json({
+        status: "Fail",
+        error: "Missing required data",
+      });
+    }
+
     const userData = await User.findByIdAndUpdate(
       userId,
       {
@@ -32,15 +64,23 @@ module.exports.setAvatar = async (req, res, next) => {
         avatarImage,
       },
       { new: true }
-    );
+    ).select("isAvatarImageSet avatarImage");
+    if (!userData) {
+      return res.status(404).json({
+        status: "Fail",
+        error: "User not found",
+      });
+    }
+
     return res.json({
       isSet: userData.isAvatarImageSet,
       image: userData.avatarImage,
     });
   } catch (error) {
-    res.status(400).json({
+    console.error(error);
+    res.status(500).json({
       status: "Fail",
-      error: "Couldn't Set the Avatar",
+      error: "An error occurred",
     });
   }
 };

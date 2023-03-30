@@ -5,6 +5,7 @@ import Logout from "./Logout";
 import ChatInput from "./ChatInput";
 
 const ChatContainer = ({ currentChat }) => {
+  console.log(currentChat);
   const handleSendMsg = async (msg) => {};
 
   return (
