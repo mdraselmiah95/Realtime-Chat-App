@@ -29,7 +29,7 @@ mongoose
 
 // Route
 app.use("/api/auth", userRoute);
-app.use("/api/message", messageRoute);
+app.use("/api/messages", messageRoute);
 
 const server = app.listen(process.env.PORT, () => {
   console.log(colors.rainbow(`APP IS RUNNING ON PORT ${process.env.PORT}`));
