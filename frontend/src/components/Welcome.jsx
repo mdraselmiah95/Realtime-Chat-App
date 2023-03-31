@@ -1,19 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import Robot from "../assets/robot.gif";
 
 const Welcome = ({ currentUser }) => {
   const { username } = currentUser;
-
-  // const [userName, setUserName] = useState("");
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const data = await JSON.parse(localStorage.getItem("chat-data"));
-  //     setUserName(data.username);
-  //   };
-  //   fetchData();
-  // }, []);
 
   return (
     <Container>
@@ -37,6 +27,45 @@ const Container = styled.div`
   }
   span {
     color: #4e0eff;
+  }
+
+  /* Small screens (up to 576px) */
+  @media screen and (max-width: 576px) {
+    img {
+      height: 10rem;
+    }
+    h1 {
+      font-size: 1.5rem;
+    }
+    h3 {
+      font-size: 0.8rem;
+    }
+  }
+
+  /* Medium screens (between 576px and 768px) */
+  @media screen and (min-width: 576px) and (max-width: 768px) {
+    img {
+      height: 15rem;
+    }
+    h1 {
+      font-size: 2rem;
+    }
+    h3 {
+      font-size: 1rem;
+    }
+  }
+
+  /* Large screens (above 768px) */
+  @media screen and (min-width: 768px) {
+    img {
+      height: 20rem;
+    }
+    h1 {
+      font-size: 3rem;
+    }
+    h3 {
+      font-size: 1.5rem;
+    }
   }
 `;
 

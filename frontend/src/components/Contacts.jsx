@@ -10,8 +10,8 @@ const Contacts = ({ contacts, changeChat }) => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await JSON.parse(localStorage.getItem("chat-data"));
-      setCurrentUserName(data.username);
-      setCurrentUserImage(data.avatarImage);
+      setCurrentUserName(data?.username);
+      setCurrentUserImage(data?.avatarImage);
     };
     fetchData();
   }, []);
@@ -71,7 +71,7 @@ const Contacts = ({ contacts, changeChat }) => {
 
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 10% 75% 15%;
+  grid-template-rows: 10% 1fr 15%; // Use 1fr instead of 75% for better responsiveness
   overflow: hidden;
   background-color: #080420;
   .brand {
@@ -144,7 +144,24 @@ const Container = styled.div`
         color: white;
       }
     }
+    @media screen and (max-width: 720px) {
+      // Small screen
+      flex-direction: column;
+      justify-content: center;
+      gap: 1rem;
+      .avatar {
+        img {
+          height: 3rem;
+        }
+      }
+      .username {
+        h2 {
+          font-size: 1rem;
+        }
+      }
+    }
     @media screen and (min-width: 720px) and (max-width: 1080px) {
+      // Medium screen
       gap: 0.5rem;
       .username {
         h2 {

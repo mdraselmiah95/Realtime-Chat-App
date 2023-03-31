@@ -77,7 +77,6 @@ const ChatContainer = ({ currentChat, currentUser, socket }) => {
             </div>
             <Logout />
           </div>
-          {/* <Messages/>*/}
           <div className="chat-messages">
             {messages.map((message, index) => {
               return (
@@ -107,14 +106,26 @@ const Container = styled.div`
   grid-template-rows: 10% 80% 10%;
   gap: 0.1rem;
   overflow: hidden;
+
   @media screen and (min-width: 720px) and (max-width: 1080px) {
     grid-template-rows: 15% 70% 15%;
   }
+
+  @media screen and (min-width: 1081px) {
+    grid-template-rows: 10% 80% 10%;
+    padding: 0 3rem;
+  }
+
   .chat-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 2rem;
+
+    @media screen and (min-width: 1081px) {
+      padding: 0;
+    }
+
     .user-details {
       display: flex;
       align-items: center;
@@ -131,12 +142,18 @@ const Container = styled.div`
       }
     }
   }
+
   .chat-messages {
     padding: 1rem 2rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
     overflow: auto;
+
+    @media screen and (min-width: 1081px) {
+      padding: 1rem 0;
+    }
+
     &::-webkit-scrollbar {
       width: 0.2rem;
       &-thumb {
@@ -157,6 +174,9 @@ const Container = styled.div`
         color: #d1d1d1;
         @media screen and (min-width: 720px) and (max-width: 1080px) {
           max-width: 70%;
+        }
+        @media screen and (min-width: 1081px) {
+          max-width: 60%;
         }
       }
     }

@@ -81,16 +81,32 @@ const Container = styled.div`
   gap: 1rem;
   align-items: center;
   background-color: #131324;
+
   .container {
+    padding: 1.5rem;
     height: 85vh;
     width: 85vw;
     background-color: #00000076;
     display: grid;
     grid-template-columns: 25% 75%;
-    @media screen and (min-width: 720px) and (max-width: 1080px) {
+
+    @media screen and (max-width: 480px) {
+      // Small screens (e.g. mobile)
+      grid-template-columns: 100%;
+      height: auto;
+      width: 100%;
+      padding: 1rem;
+    }
+
+    @media screen and (min-width: 481px) and (max-width: 768px) {
+      // Medium screens (e.g. tablet)
       grid-template-columns: 35% 65%;
+    }
+
+    @media screen and (min-width: 769px) {
+      // Large screens (e.g. desktop)
+      grid-template-columns: 25% 75%;
     }
   }
 `;
-
 export default Chat;
