@@ -3,17 +3,32 @@ import styled from "styled-components";
 import axios from "axios";
 import Logout from "./Logout";
 import ChatInput from "./ChatInput";
-import Messages from "./Messages";
-import { sendMessageRoute } from "../utils/APIRoutes";
+import { receiveMessageRoute, sendMessageRoute } from "../utils/APIRoutes";
 
 const ChatContainer = ({ currentChat, currentUser }) => {
+  const [messages, setMessages] = useState([]);
+  const scrollRef = useRef();
+  const [arrivalMessage, setArrivalMessage] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await JSON.parse(localStorage.getItem("chat-data"));
+      const response = await axios.post(receiveMessageRoute, {
+        from: data._id,
+        to: currentChat?._id,
+      });
+      setMessages(response.data);
+    };
+    fetchData();
+  }, [currentChat]);
+
   const handleSendMsg = async (msg) => {
-    const { data } = await axios.post(sendMessageRoute, {
-      from: currentUser._id,
+    const data = await JSON.parse(localStorage.getItem("chat-data"));
+    await axios.post(sendMessageRoute, {
+      from: data._id,
       to: currentChat._id,
       message: msg,
     });
-    console.log(data);
   };
 
   return (
@@ -34,8 +49,24 @@ const ChatContainer = ({ currentChat, currentUser }) => {
             </div>
             <Logout />
           </div>
-          {/* <Messages /> */}
-          <div className="chat-message"></div>
+          {/* <Messages />*/}
+          <div className="chat-messages">
+            {messages.map((message, index) => {
+              return (
+                <div key={index}>
+                  <div
+                    className={`message ${
+                      message.fromSelf ? "sended" : "received"
+                    }`}
+                  >
+                    <div className="content ">
+                      <p>{message.message}</p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
           <ChatInput handleSendMsg={handleSendMsg} />
         </Container>
       )}
@@ -107,7 +138,7 @@ const Container = styled.div`
         background-color: #4f04ff21;
       }
     }
-    .recieved {
+    .received {
       justify-content: flex-start;
       .content {
         background-color: #9900ff20;

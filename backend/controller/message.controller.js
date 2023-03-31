@@ -1,39 +1,37 @@
 const Messages = require("../model/message.model");
 
 module.exports.addMessage = async (req, res, next) => {
-  const { message, from, to } = req.body;
   try {
+    const { from, to, message } = req.body;
     const data = await Messages.create({
       message: { text: message },
-      users: { from, to },
+      users: [from, to],
       sender: from,
     });
-    if (data instanceof Messages) {
-      return res.json({ success: true, msg: "Message added successfully" });
-    } else {
-      return res.json({ success: false, msg: "Failed to add message" });
-    }
-  } catch (error) {
-    return res
-      .status(500)
-      .json({ success: false, msg: "Failed to add message" });
+
+    if (data) return res.json({ msg: "Message added successfully." });
+    else return res.json({ msg: "Failed to add message to the database" });
+  } catch (ex) {
+    next(ex);
   }
 };
 
 module.exports.getAllMessage = async (req, res, next) => {
   const { from, to } = req.body;
   try {
-    const message = await Messages.find({
+    const messages = await Messages.find({
       users: {
         $all: [from, to],
       },
     }).sort({ updatedAt: 1 });
 
-    const projectMessages = Array.from(message, (msg) => ({
-      fromSelf: msg.sender.toString() === from,
-      message: msg.message.text,
-    }));
-    res.json(projectMessages);
+    const projectedMessages = messages.map((msg) => {
+      return {
+        fromSelf: msg.sender.toString() === from,
+        message: msg.message.text,
+      };
+    });
+    res.json(projectedMessages);
   } catch (error) {
     return res
       .status(500)

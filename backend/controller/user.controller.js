@@ -21,7 +21,6 @@ module.exports.login = async (req, res, next) => {
   }
 };
 
-// module.exports.setAvatar = async (req, res, next) => {
 //   try {
 //     const userId = req.params.id;
 //     const avatarImage = req.body.image;
