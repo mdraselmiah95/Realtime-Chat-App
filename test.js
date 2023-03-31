@@ -64,3 +64,24 @@ module.exports.login = async (req, res, next) => {
     next(error);
   }
 };
+
+const { from, to } = req.body;
+try {
+  const messages = await Messages.find({
+    users: {
+      $all: [from, to],
+    },
+  }).sort({ updatedAt: 1 });
+
+  const projectedMessages = Array.from(messages, (msg) => ({
+    fromSelf: msg.sender.toString() === from,
+    message: msg.message.text,
+  }));
+
+  res.json(projectedMessages);
+} catch (error) {
+  console.error(error);
+  return res
+    .status(500)
+    .json({ success: false, msg: "Failed to get messages" });
+}

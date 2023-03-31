@@ -34,7 +34,8 @@ const ChatContainer = ({ currentChat, currentUser }) => {
             </div>
             <Logout />
           </div>
-          <Messages />
+          {/* <Messages /> */}
+          <div className="chat-message"></div>
           <ChatInput handleSendMsg={handleSendMsg} />
         </Container>
       )}

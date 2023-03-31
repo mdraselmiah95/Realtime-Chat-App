@@ -19,4 +19,24 @@ module.exports.addMessage = async (req, res, next) => {
       .json({ success: false, msg: "Failed to add message" });
   }
 };
-module.exports.getAllMessage = async (req, res, next) => {};
+
+module.exports.getAllMessage = async (req, res, next) => {
+  const { from, to } = req.body;
+  try {
+    const message = await Messages.find({
+      users: {
+        $all: [from, to],
+      },
+    }).sort({ updatedAt: 1 });
+
+    const projectMessages = Array.from(message, (msg) => ({
+      fromSelf: msg.sender.toString() === from,
+      message: msg.message.text,
+    }));
+    res.json(projectMessages);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, msg: "Failed to get messages" });
+  }
+};
