@@ -3,6 +3,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const socket = require("socket.io");
 const colors = require("colors");
 const userRoute = require("./routes/user.route");
 const messageRoute = require("./routes/message.route");
@@ -35,4 +36,25 @@ const server = app.listen(process.env.PORT, () => {
   console.log(colors.rainbow(`APP IS RUNNING ON PORT ${process.env.PORT}`));
 });
 
-// 03:47
+const io = socket(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    credentials: true,
+  },
+});
+
+global.onlineUsers = new Map();
+io.on("connection", (socket) => {
+  global.chatSocket = socket;
+  socket.on("add-user", (userId) => {
+    onlineUsers.set(userId, socket.id);
+  });
+
+  socket.on("send-msg", (data) => {
+    const sendUserSocket = onlineUsers.get(data.to);
+
+    if (sendUserSocket) {
+      socket.to(sendUserSocket).emit("msg-receive", data.msg);
+    }
+  });
+});
