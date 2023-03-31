@@ -49,7 +49,7 @@ const ChatContainer = ({ currentChat, currentUser }) => {
             </div>
             <Logout />
           </div>
-          {/* <Messages />*/}
+          {/* <Messages/>*/}
           <div className="chat-messages">
             {messages.map((message, index) => {
               return (
