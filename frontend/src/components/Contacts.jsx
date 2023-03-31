@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import Logo from "../assets/logo.svg";
 
 const Contacts = ({ contacts, changeChat }) => {
@@ -69,9 +69,18 @@ const Contacts = ({ contacts, changeChat }) => {
   );
 };
 
+const selectAnimation = keyframes`
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
+`;
+
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 10% 1fr 15%; // Use 1fr instead of 75% for better responsiveness
+  grid-template-rows: 10% 1fr 15%;
   overflow: hidden;
   background-color: #080420;
   .brand {
@@ -122,9 +131,10 @@ const Container = styled.div`
           color: white;
         }
       }
-    }
-    .selected {
-      background-color: #9a86f3;
+      &.selected {
+        background-color: #9a86f3;
+        animation: ${selectAnimation} 0.5s ease-in-out;
+      }
     }
   }
   .current-user {
